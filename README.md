@@ -1,119 +1,179 @@
-# 🧮 Terminal Scientific Calculator
+# 🧮 Terminal Scientific Calculator — Bash Edition v2.0
 
-**Terminal Scientific Calculator** es una herramienta avanzada escrita completamente en Bash, diseñada para ofrecer una experiencia de cálculo científica directamente desde el terminal. Este script es mucho más que una simple calculadora de línea de comandos: es un laboratorio matemático interactivo, visual y eficiente, ideal para entornos Unix-like y especialmente optimizado para su uso en **Git Bash** en Windows.
+> “Elegancia no es sumar. Elegancia es resolver el caos numérico con un solo script.” – aerthex
 
-> ✅ Pensada para estudiantes, entusiastas del terminal, usuarios Linux avanzados y desarrolladores que valoran soluciones funcionales, eficientes y bien diseñadas sin depender de interfaces gráficas.
-
----
-
-## 🎯 Características destacadas
-
-- ✔️ Modo **básico** y **científico** conmutable dinámicamente
-- 🎨 Interfaz visual con colores ANSI para una mejor experiencia en consola
-- 📚 Historial automático de las últimas operaciones realizadas
-- 🧮 Funciones matemáticas:
-  - Suma, multiplicación, división, potencia
-  - Raíz cuadrada, seno, coseno, tangente, logaritmo natural
-  - Factorial, MCD (máximo común divisor), MCM (mínimo común múltiplo)
-- 🔢 Conversión entre sistemas numéricos:
-  - Decimal ⇄ Binario / Octal / Hexadecimal
-- ⚙️ Configuración de la precisión decimal en tiempo real
-- ✅ Validación robusta de entradas y manejo de errores
-- 📐 Basado en herramientas estándar (`awk`, `bc`, `bash`) — sin dependencias externas
+Una calculadora científica avanzada hecha 100% en Bash, con una interfaz visual rica en colores, validaciones detalladas y más de 25 funciones incorporadas. Este no es un script improvisado. Es un entorno matemático portátil, rápido y potente creado por [@danisqxas](https://github.com/danisqxas) para usuarios exigentes del terminal.
 
 ---
 
-## 💻 Cómo ejecutar (especialmente en Git Bash)
+## 🧠 ¿Qué es esto?
 
-1. Cloná el repositorio o mové el script a tu máquina local.
-
-2. Desde Git Bash, navegá a la carpeta donde se encuentra el script.  
-   Por ejemplo:
-
-   ```bash
-   cd /c/Users/mcdwd/Downloads
-   ```
-
-3. Dale permisos de ejecución al script:
-
-   ```bash
-   chmod +x src/calculadora.sh
-   ```
-
-4. Ejecutalo:
-
-   ```bash
-   ./src/calculadora.sh
-   ```
-
-> 🧠 Si estás usando Linux o WSL, los pasos son idénticos. Solo cambia la ruta del directorio.
+Un archivo `.sh` que no solo suma y resta. Este script:
+- Evalúa expresiones científicas con precisión
+- Valida la entrada con controles estrictos
+- Almacena resultados y memoria con acceso rápido
+- Presenta todo en una UI colorida, centrada y organizada
 
 ---
 
-## 📦 Estructura del proyecto
+## 🚀 Funciones Incluidas
 
-```plaintext
+### 🧮 Operaciones Básicas
+- `s` → Suma
+- `r` → Resta
+- `m` → Multiplicación
+- `d` → División
+- `p` → Potenciación
+- `√` → Raíz cuadrada
+
+### 📐 Funciones Trigonométricas
+- `sin(x)` → Seno (radianes)
+- `cos(x)` → Coseno
+- `tan(x)` → Tangente
+- Precisión configurable
+
+### 🧪 Logaritmos y Exponenciales
+- `ln(x)` → Logaritmo natural
+- `log10(x)` → Logaritmo base 10
+- `exp(x)` → Exponencial (e^x)
+
+### 📊 Estadística
+- `avg` → Promedio
+- `sum` → Sumatoria
+- `prod` → Productoria
+- `stddev` → Desviación estándar
+- `var` → Varianza
+
+### 💰 Finanzas
+- `simple_interest(p, r, t)`
+- `compound_interest(p, r, t, n)`
+- `VPN` con múltiples flujos de caja
+
+### 🔁 Conversiones de Base
+- Decimal ⇄ Binario
+- Decimal ⇄ Octal
+- Decimal ⇄ Hexadecimal
+
+### 🔧 Utilidades Extra
+- `!` → Factorial
+- MCD y MCM
+- Evaluador directo: `=3+5*7`
+- Cambio de precisión (`w`)
+- Modo silencioso / verbose (`z`)
+- Borrar historial (`x`)
+
+---
+
+## 📁 Estructura del Proyecto
+
+```
 terminal-scientific-calculator/
 ├── src/
-│   └── calculadora.sh        # Script principal con toda la lógica funcional
-│
+│   └── calculadora.sh         # Script principal
 ├── assets/
-│   └── preview.gif           # (Opcional) Captura o demo animada del menú de la calculadora
-│
-├── README.md                 # Documentación completa y profesional del proyecto
-├── LICENSE                   # Licencia MIT de uso libre y respetuoso
-└── .gitignore                # (Opcional) Exclusiones para mantener el repositorio limpio
+│   └── banner.png             # Banner visual (opcional)
+├── docs/
+│   └── funciones_avanzadas.md # Documentación detallada (opcional)
+├── tests/
+│   └── test_operaciones.sh    # Casos de prueba (futuros)
+├── setup.sh                   # Script de instalación automática
+├── requirements.txt           # Dependencias (bc, awk, etc.)
+├── LICENSE                    # Licencia MIT
+└── README.md                  # Este documento
 ```
 
 ---
 
-## 🧠 Requisitos
+## ⚙️ Instalación
 
-Este script está diseñado para ser completamente portable. Solo requiere herramientas que ya están disponibles en cualquier sistema moderno basado en Unix:
+```bash
+git clone https://github.com/danisqxas/terminal-scientific-calculator.git
+cd terminal-scientific-calculator
+chmod +x setup.sh
+./setup.sh
+```
 
-- `bash`
-- `awk`
-- `bc`
+Y luego:
 
-> En Windows se recomienda **Git Bash** o **WSL** para garantizar compatibilidad y experiencia visual completa.
-
----
-
-## 🧪 Casos de uso recomendados
-
-- 👨‍🎓 **Estudiantes**: Ideal para practicar operaciones matemáticas y lógica desde la terminal
-- 💻 **Desarrolladores**: Como herramienta auxiliar rápida o ejemplo de scripting estructurado en Bash
-- 🧰 **Sysadmins y DevOps**: Cálculos rápidos sin salir de la terminal
-- 🔬 **Curiosos del terminal**: Para explorar cómo construir interfaces interactivas sin GUI
+```bash
+./src/calculadora.sh
+```
 
 ---
 
-## 🧩 Diseño técnico y filosofía del proyecto
+## 🧰 Requisitos
 
-El script ha sido cuidadosamente organizado en funciones independientes, con menús visuales limpios, colores para mejorar la experiencia del usuario y validaciones sólidas para evitar errores comunes. Cada sección del código fue escrita con el objetivo de mantener legibilidad, modularidad y facilidad de mantenimiento.
-
-Este proyecto no busca solo ser útil: busca **demostrar que Bash también puede producir interfaces amigables, completas y poderosas**, desafiando la noción de que la terminal es solo para tareas básicas.
+- Bash 4+
+- `bc`, `awk`, `grep`, `sed`, `tput`
+- Funciona en: Linux, macOS, WSL, Alpine
 
 ---
 
-## ✍️ Autor
+## 💡 Ejemplo Visual
 
-Desarrollado con dedicación por [aerthex (Dani)](https://github.com/danisqxas)  
-📬 Contacto: [@daniiwnet](https://x.com/daniiwnet?s=21)
+```text
+╔════════════════════════════════════════════╗
+║       TERMINAL SCIENTIFIC CALCULATOR      ║
+╚════════════════════════════════════════════╝
 
-> *Apasionado por la ciberseguridad, el desarrollo con propósito y las herramientas bien hechas.*
+Selecciona una opción:
+
+[s] Sumar      [r] Restar     [m] Multiplicar
+[d] Dividir   [p] Potencia   [!] Factorial
+[i] Seno      [c] Coseno     [t] Tangente
+[l] Log Nat   [q] Salir      [?] Ayuda
+```
+
+---
+
+## 🏷️ Versión Actual
+
+```
+v2.0.0 – “Precision in Shell”
+```
+
+---
+
+## 🔮 Roadmap Futuro
+
+- Exportar historial a CSV o Markdown
+- Agregar regresión lineal y funciones estadísticas avanzadas
+- Interfaz visual usando `dialog` o `whiptail`
+- Autocompletado en terminal y soporte para `fzf`
+- Configuración persistente por archivo `.conf`
+
+---
+
+## 🧪 ¿Por qué usar esto?
+
+Porque no es una simple calculadora.  
+Es una suite de análisis numérico escrita para terminalistas serios, que valoran:
+- Velocidad
+- Precisión
+- Estilo visual sin depender de GUI
+- Portabilidad extrema (funciona en cualquier shell moderno)
+
+Y porque no todo en la vida es abrir Python o Excel para sacar una raíz cuadrada.
 
 ---
 
 ## 📜 Licencia
 
-Distribuido bajo la **Licencia MIT**.  
-Podés usarlo, adaptarlo o compartirlo libremente. Solo se solicita reconocimiento a la autoría original.
+MIT License — Este proyecto es libre para usar, mejorar y compartir.
 
 ---
 
-## 🚀 Reflexión final
+## ✍️ Autoría
 
-**Terminal Scientific Calculator** no es solo un ejercicio de scripting — es una prueba de que Bash puede ser visual, modular, preciso y elegante. Está pensado para resolver cálculos, sí, pero también para demostrar que en las manos correctas, incluso una terminal puede ser un entorno de usuario poderoso.
+**Desarrollado desde cero por [@danisqxas](https://github.com/danisqxas)**  
+Optimizado bajo el alias **aerthex** — donde cada script está pensado para destacar por encima del promedio.
 
-> Porque lo importante no es qué tan gráfica es tu herramienta, sino qué tan bien está construida.
+---
+
+## 🔥 Frase Final
+
+> Si hiciste todo esto con Bash, imaginate lo que podés hacer con Go, Rust o C.  
+> Esta calculadora no solo resuelve cuentas...  
+> **Resuelve la duda de si sabés o no escribir buen código.**
+
+**– aerthex**
