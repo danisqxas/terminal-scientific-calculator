@@ -1,0 +1,14 @@
+name: ShellCheck
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    name: Linter de Shell
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Instalar ShellCheck
+        run: sudo apt-get install -y shellcheck
+      - name: Ejecutar ShellCheck
+        run: shellcheck src/calculadora.sh
