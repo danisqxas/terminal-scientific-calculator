@@ -16,6 +16,33 @@ FONDO_AZUL='\033[44m'
 HISTORIAL=()
 MAX_HISTORIAL=10
 
+# Archivo para persistir historial
+HISTORIAL_ARCHIVO="${HOME}/.calculadora_historial"
+
+# Cargar historial desde disco
+cargar_historial() {
+    if [ -f "$HISTORIAL_ARCHIVO" ]; then
+        mapfile -t HISTORIAL < "$HISTORIAL_ARCHIVO"
+        if [ ${#HISTORIAL[@]} -gt $MAX_HISTORIAL ]; then
+            HISTORIAL=("${HISTORIAL[@]: -$MAX_HISTORIAL}")
+        fi
+    fi
+}
+
+# Guardar historial en disco
+guardar_historial() {
+    printf "%s\n" "${HISTORIAL[@]}" > "$HISTORIAL_ARCHIVO"
+}
+
+# Agregar entrada al historial y mantener tamaño máximo
+agregar_historial() {
+    HISTORIAL+=("$1")
+    if [ ${#HISTORIAL[@]} -gt $MAX_HISTORIAL ]; then
+        HISTORIAL=("${HISTORIAL[@]:1}")
+    fi
+    guardar_historial
+}
+
 # Variables para modo científico
 MODO_CIENTIFICO=false
 PRECISION=4
@@ -84,7 +111,7 @@ conversion_base() {
                 resultado=$(echo "obase=2; $num" | bc)
                 resultado="${resultado//$'\n'/}"
                 echo -e "\n${VERDE}$num en binario es: $resultado${RESET}"
-                HISTORIAL+=("Decimal a Binario: $num → $resultado")
+                agregar_historial "Decimal a Binario: $num → $resultado"
             else
                 echo -e "\n${ROJO}✗ Entrada no válida.${RESET}"
             fi
@@ -95,7 +122,7 @@ conversion_base() {
                 resultado=$(echo "obase=16; $num" | bc)
                 resultado="${resultado//$'\n'/}"
                 echo -e "\n${VERDE}$num en hexadecimal es: $resultado${RESET}"
-                HISTORIAL+=("Decimal a Hexadecimal: $num → $resultado")
+                agregar_historial "Decimal a Hexadecimal: $num → $resultado"
             else
                 echo -e "\n${ROJO}✗ Entrada no válida.${RESET}"
             fi
@@ -106,7 +133,7 @@ conversion_base() {
                 resultado=$(echo "obase=8; $num" | bc)
                 resultado="${resultado//$'\n'/}"
                 echo -e "\n${VERDE}$num en octal es: $resultado${RESET}"
-                HISTORIAL+=("Decimal a Octal: $num → $resultado")
+                agregar_historial "Decimal a Octal: $num → $resultado"
             else
                 echo -e "\n${ROJO}✗ Entrada no válida.${RESET}"
             fi
@@ -117,7 +144,7 @@ conversion_base() {
                 resultado=$(echo "ibase=2; $num" | bc)
                 resultado="${resultado//$'\n'/}"
                 echo -e "\n${VERDE}$num en decimal es: $resultado${RESET}"
-                HISTORIAL+=("Binario a Decimal: $num → $resultado")
+                agregar_historial "Binario a Decimal: $num → $resultado"
             else
                 echo -e "\n${ROJO}✗ Entrada no válida.${RESET}"
             fi
@@ -129,7 +156,7 @@ conversion_base() {
                 resultado=$(echo "ibase=16; $num" | bc)
                 resultado="${resultado//$'\n'/}"
                 echo -e "\n${VERDE}$num en decimal es: $resultado${RESET}"
-                HISTORIAL+=("Hexadecimal a Decimal: $num → $resultado")
+                agregar_historial "Hexadecimal a Decimal: $num → $resultado"
             else
                 echo -e "\n${ROJO}✗ Entrada no válida.${RESET}"
             fi
@@ -140,7 +167,7 @@ conversion_base() {
                 resultado=$(echo "ibase=8; $num" | bc)
                 resultado="${resultado//$'\n'/}"
                 echo -e "\n${VERDE}$num en decimal es: $resultado${RESET}"
-                HISTORIAL+=("Octal a Decimal: $num → $resultado")
+                agregar_historial "Octal a Decimal: $num → $resultado"
             else
                 echo -e "\n${ROJO}✗ Entrada no válida.${RESET}"
             fi
@@ -174,6 +201,7 @@ mostrar_historial() {
 # Función para limpiar el historial
 limpiar_historial() {
     HISTORIAL=()
+    guardar_historial
     echo -e "\n${VERDE}✓ Historial limpiado correctamente.${RESET}"
 }
 
@@ -283,6 +311,7 @@ calculadora() {
         case "$op" in
             q|Q)
                 echo -e "\n${VERDE}¡Gracias por usar la calculadora premium! Hasta pronto.${RESET}"
+                guardar_historial
                 sleep 1
                 clear
                 break
@@ -332,7 +361,7 @@ calculadora() {
                         echo -e "\n${VERDE}El MCD de $n1 y $n2 es: $resultado${RESET}"
                         ultima_operacion="MCD($n1, $n2)"
                         ultimo_resultado="$resultado"
-                        HISTORIAL+=("$ultima_operacion = $ultimo_resultado")
+                        agregar_historial "$ultima_operacion = $ultimo_resultado"
                     else
                         echo -e "\n${ROJO}✗ Entrada no válida. Ingrese números enteros positivos.${RESET}"
                     fi
@@ -351,7 +380,7 @@ calculadora() {
                         echo -e "\n${VERDE}El MCM de $n1 y $n2 es: $resultado${RESET}"
                         ultima_operacion="MCM($n1, $n2)"
                         ultimo_resultado="$resultado"
-                        HISTORIAL+=("$ultima_operacion = $ultimo_resultado")
+                        agregar_historial "$ultima_operacion = $ultimo_resultado"
                     else
                         echo -e "\n${ROJO}✗ Entrada no válida. Ingrese números enteros positivos.${RESET}"
                     fi
@@ -376,7 +405,7 @@ calculadora() {
                     echo -e "\n${VERDE}El factorial de $n1 es: $resultado${RESET}"
                     ultima_operacion="$n1!"
                     ultimo_resultado="$resultado"
-                    HISTORIAL+=("$ultima_operacion = $ultimo_resultado")
+                    agregar_historial "$ultima_operacion = $ultimo_resultado"
                 else
                     echo -e "\n${ROJO}✗ Error: Debe ingresar un número entero no negativo.${RESET}"
                 fi
@@ -391,7 +420,7 @@ calculadora() {
                     echo -e "\n${VERDE}La raíz cuadrada de $n1 es: $resultado${RESET}"
                     ultima_operacion="√$n1"
                     ultimo_resultado="$resultado"
-                    HISTORIAL+=("$ultima_operacion = $ultimo_resultado")
+                    agregar_historial "$ultima_operacion = $ultimo_resultado"
                 else
                     echo -e "\n${ROJO}✗ Error: Debe ingresar un número no negativo.${RESET}"
                 fi
@@ -407,7 +436,7 @@ calculadora() {
                         echo -e "\n${VERDE}El coseno de $n1 radianes es: $resultado${RESET}"
                         ultima_operacion="cos($n1)"
                         ultimo_resultado="$resultado"
-                        HISTORIAL+=("$ultima_operacion = $ultimo_resultado")
+                        agregar_historial "$ultima_operacion = $ultimo_resultado"
                     else
                         echo -e "\n${ROJO}✗ Error: Debe ingresar un número válido.${RESET}"
                     fi
@@ -429,7 +458,7 @@ calculadora() {
                             echo -e "\n${VERDE}La tangente de $n1 radianes es: $resultado${RESET}"
                             ultima_operacion="tan($n1)"
                             ultimo_resultado="$resultado"
-                            HISTORIAL+=("$ultima_operacion = $ultimo_resultado")
+                            agregar_historial "$ultima_operacion = $ultimo_resultado"
                         fi
                     else
                         echo -e "\n${ROJO}✗ Error: Debe ingresar un número válido.${RESET}"
@@ -449,7 +478,7 @@ calculadora() {
                         echo -e "\n${VERDE}El seno de $n1 radianes es: $resultado${RESET}"
                         ultima_operacion="sin($n1)"
                         ultimo_resultado="$resultado"
-                        HISTORIAL+=("$ultima_operacion = $ultimo_resultado")
+                        agregar_historial "$ultima_operacion = $ultimo_resultado"
                     else
                         echo -e "\n${ROJO}✗ Error: Debe ingresar un número válido.${RESET}"
                     fi
@@ -468,7 +497,7 @@ calculadora() {
                         echo -e "\n${VERDE}El logaritmo natural de $n1 es: $resultado${RESET}"
                         ultima_operacion="ln($n1)"
                         ultimo_resultado="$resultado"
-                        HISTORIAL+=("$ultima_operacion = $ultimo_resultado")
+                        agregar_historial "$ultima_operacion = $ultimo_resultado"
                     else
                         echo -e "\n${ROJO}✗ Error: Debe ingresar un número positivo.${RESET}"
                     fi
@@ -501,7 +530,7 @@ calculadora() {
                         echo -e "\n${VERDE}$n1 $simbolo $n2 = $resultado${RESET}"
                         ultima_operacion="$n1 + $n2"
                         ultimo_resultado="$resultado"
-                        HISTORIAL+=("$ultima_operacion = $ultimo_resultado")
+                        agregar_historial "$ultima_operacion = $ultimo_resultado"
                         ;;
                     m|M)
                         # Usamos awk para la multiplicación
@@ -509,7 +538,7 @@ calculadora() {
                         echo -e "\n${VERDE}$n1 $simbolo $n2 = $resultado${RESET}"
                         ultima_operacion="$n1 × $n2"
                         ultimo_resultado="$resultado"
-                        HISTORIAL+=("$ultima_operacion = $ultimo_resultado")
+                        agregar_historial "$ultima_operacion = $ultimo_resultado"
                         ;;
                     d|D)
                         if (( $(echo "$n2 == 0" | bc -l) )); then
@@ -520,7 +549,7 @@ calculadora() {
                             echo -e "\n${VERDE}$n1 $simbolo $n2 = $resultado${RESET}"
                             ultima_operacion="$n1 ÷ $n2"
                             ultimo_resultado="$resultado"
-                            HISTORIAL+=("$ultima_operacion = $ultimo_resultado")
+                            agregar_historial "$ultima_operacion = $ultimo_resultado"
                         fi
                         ;;
                     p|P)
@@ -529,7 +558,7 @@ calculadora() {
                         echo -e "\n${VERDE}$n1 $simbolo $n2 = $resultado${RESET}"
                         ultima_operacion="$n1 ^ $n2"
                         ultimo_resultado="$resultado"
-                        HISTORIAL+=("$ultima_operacion = $ultimo_resultado")
+                        agregar_historial "$ultima_operacion = $ultimo_resultado"
                         ;;
                 esac
                 ;;
@@ -538,10 +567,6 @@ calculadora() {
                 ;;
         esac
 
-        # Limitar historial al máximo configurado
-        if [ ${#HISTORIAL[@]} -gt $MAX_HISTORIAL ]; then
-            HISTORIAL=("${HISTORIAL[@]:1}")
-        fi
 
         echo ""
         read -rp "Presione ENTER para continuar..."
@@ -556,6 +581,7 @@ if ! command -v awk &> /dev/null; then
 fi
 
 # Mostrar banner de inicio
+cargar_historial
 clear
 echo -e "${CYAN}"
 echo "  ██████╗ █████╗ ██╗  ██╗███████╗███████╗██████╗  ██████╗ ██████╗ "
