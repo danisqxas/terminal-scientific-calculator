@@ -2,33 +2,31 @@
 
 Este documento detalla cada función avanzada incluida en la calculadora:
 
-## 🧠 Matemáticas Avanzadas
+## 🧠 Matemáticas
 
-| Comando | Descripción |
-|--------|-------------|
-| `!`    | Calcula el factorial de un número |
-| `^`    | Potenciación base x exponente |
-| `√`    | Raíz cuadrada o n-ésima raíz |
-| `ln`   | Logaritmo natural |
-| `log10`| Logaritmo decimal |
-| `exp`  | Exponencial (e^x) |
+- `f` → Factorial de un número
+- `p` → Potencia base/exponente
+- `g` → Máximo Común Divisor (MCD)
+- `n` → Mínimo Común Múltiplo (MCM)
 
 ## 📐 Trigonometría
 
-- `sin(x)` → Seno
-- `cos(x)` → Coseno
-- `tan(x)` → Tangente
+- `i` → Seno
+- `c` → Coseno
+- `t` → Tangente
 
-Los cálculos se hacen en radianes. Próxima versión: soporte en grados.
+Los cálculos se realizan en radianes con precisión configurable.
 
-## 📊 Estadísticas
+## 🔁 Conversiones de Base
 
-- `avg` → Promedio
-- `stddev` → Desviación estándar
-- `var` → Varianza
-- `sum`, `prod` → Sumatoria y productoria
+La opción `b` permite convertir entre:
 
-## 💰 Finanzas
+- Decimal ↔ Binario
+- Decimal ↔ Octal
+- Decimal ↔ Hexadecimal
 
-- Interés simple y compuesto
-- Valor presente neto (VPN)
+## 🛠️ Otras utilidades
+
+- `l` → Logaritmo natural
+- Historial persistente que puede limpiarse con `x`
+- Configuración de precisión decimal (`w`)

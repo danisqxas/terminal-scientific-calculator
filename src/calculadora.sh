@@ -31,7 +31,11 @@ cargar_historial() {
 
 # Guardar historial en disco
 guardar_historial() {
-    printf "%s\n" "${HISTORIAL[@]}" > "$HISTORIAL_ARCHIVO"
+    if [ ${#HISTORIAL[@]} -eq 0 ]; then
+        : > "$HISTORIAL_ARCHIVO"
+    else
+        printf "%s\n" "${HISTORIAL[@]}" > "$HISTORIAL_ARCHIVO"
+    fi
 }
 
 # Agregar entrada al historial y mantener tamaño máximo
@@ -67,7 +71,8 @@ factorial() {
     if [ "$num" -eq 0 ] || [ "$num" -eq 1 ]; then
         echo 1
     else
-        local prev=$(factorial "$((num - 1))")
+        local prev
+        prev=$(factorial "$((num - 1))")
         echo "$((num * prev))"
     fi
 }
@@ -89,7 +94,8 @@ mcm() {
     local a="$1"
     local b="$2"
     local producto=$((a * b))
-    local divisor=$(mcd "$a" "$b")
+    local divisor
+    divisor=$(mcd "$a" "$b")
     echo "$((producto / divisor))"
 }
 
@@ -573,23 +579,28 @@ calculadora() {
     done
 }
 
-# Verificar si awk está instalado
-if ! command -v awk &> /dev/null; then
-    echo -e "${ROJO}Error: Esta calculadora requiere el programa 'awk'.${RESET}"
-    echo "Asegúrese de que esté instalado en su sistema."
-    exit 1
+main() {
+    # Verificar si awk está instalado
+    if ! command -v awk &> /dev/null; then
+        echo -e "${ROJO}Error: Esta calculadora requiere el programa 'awk'.${RESET}"
+        echo "Asegúrese de que esté instalado en su sistema."
+        exit 1
+    fi
+
+    cargar_historial
+    clear
+    echo -e "${CYAN}"
+    echo "  ██████╗ █████╗ ██╗  ██╗███████╗███████╗██████╗  ██████╗ ██████╗ "
+    echo " ██╔═══██╗██╔══██╗██║ ██╔╝██╔════╝██╔════╝██╔══██╗██╔═══██╗██╔══██╗"
+    echo " ██║   ██║███████║█████╔╝ ██████╗ ██████╗ ██████╔╝██║   ██║██████╔╝"
+    echo " ██║   ██║██╔══██║██╔═██╗ ╚════██╗╚════██╗██╔══██╗██║   ██║██╔══██╗"
+    echo " ╚██████╔╝██║  ██║██║  ██╗███████║███████║██║  ██║╚██████╔╝██║  ██║"
+    echo "  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝"
+    echo "${RESET}"
+
+    calculadora
+}
+
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+    main "$@"
 fi
-
-# Mostrar banner de inicio
-cargar_historial
-clear
-echo -e "${CYAN}"
-echo "  ██████╗ █████╗ ██╗  ██╗███████╗███████╗██████╗  ██████╗ ██████╗ "
-echo " ██╔═══██╗██╔══██╗██║ ██╔╝██╔════╝██╔════╝██╔══██╗██╔═══██╗██╔══██╗"
-echo " ██║   ██║███████║█████╔╝ ██████╗ ██████╗ ██████╔╝██║   ██║██████╔╝"
-echo " ██║   ██║██╔══██║██╔═██╗ ╚════██╗╚════██╗██╔══██╗██║   ██║██╔══██╗"
-echo " ╚██████╔╝██║  ██║██║  ██╗███████║███████║██║  ██║╚██████╔╝██║  ██║"
-echo "  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝"
-echo "${RESET}"
-
-calculadora

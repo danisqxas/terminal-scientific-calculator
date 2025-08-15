@@ -2,22 +2,20 @@
 
 ## 🧩 Componentes Clave
 
-- `main_menu()` → Muestra el menú principal con todas las opciones
-- `handle_input()` → Valida entrada del usuario
-- `execute_operation()` → Llama a las funciones de cálculo según opción elegida
-- `utils/` → Funciones auxiliares como validaciones, formato de salida, etc.
+- `calculadora()` → bucle principal de interacción.
+- `agregar_historial`, `cargar_historial`, `limpiar_historial` → manejo de historial persistente.
+- `factorial`, `mcd`, `mcm`, `conversion_base` → operaciones auxiliares.
 
 ## 🧠 Flujo
 
-```bash
-main_menu -> selecciona -> handle_input -> ejecuta -> resultado
-```
+1. `main` verifica dependencias y carga el historial desde `~/.calculadora_historial`.
+2. Se muestra un banner de bienvenida.
+3. `calculadora` procesa las operaciones hasta que el usuario decida salir.
 
 ## 🛠️ Tecnologías Utilizadas
 
 - Bash 4+
-- `bc` para precisión matemática
-- `tput` para colores
-- `awk`, `sed`, `grep` para análisis de texto
+- `awk` y `bc` para cálculos matemáticos
+- Códigos ANSI para colores en la terminal
 
-El script está modularizado, preparado para ser testeado y extendido.
+El script está modularizado y puede ser importado desde otros scripts para pruebas.

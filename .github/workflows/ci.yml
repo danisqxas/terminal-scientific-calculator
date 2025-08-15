@@ -1,0 +1,17 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y shellcheck bc
+      - name: ShellCheck
+        run: shellcheck src/calculadora.sh
+      - name: Run tests
+        run: |
+          bash tests/test_operaciones.sh
+          bash tests/test_historial.sh
